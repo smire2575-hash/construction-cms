@@ -1,4 +1,5 @@
 # CMS — Construction Management System
+Author: Siciid Mire
 
 A React construction-management ERP frontend with 24 module views, dashboard, forms, searchable tables, CSV export, and company/Super Admin demo modes. Supabase provides authentication, PostgreSQL storage, row-level tenant access, and private file storage. Without Supabase settings the app stays in browser-only demo mode.
 
