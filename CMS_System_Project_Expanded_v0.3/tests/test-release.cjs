@@ -1,0 +1,15 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.join(__dirname,'..');
+const required=['frontend/index.html','frontend/src/App.jsx','frontend/src/styles.css','frontend/src/lib/api.js','backend/src/server.js','database/01_schema_supabase.sql','database/02_atomic_transactions.sql','database/03_contact_settings_and_workflows.sql','database/04_activation_and_ownership.sql','database/05_subscription_renewal.sql','CMS_PREVIEW_HAL_FILE.html','README_BILOW_HALKAN.md'];
+for(const p of required)assert.ok(fs.existsSync(path.join(root,p)),p+' missing');
+const demo=fs.readFileSync(path.join(root,'preview/app.js'),'utf8');
+assert.ok(demo.includes('function platformSettings()'));
+assert.ok(demo.includes('function tenantSettings()'));
+assert.ok(demo.includes("contacts:[['name'"));
+assert.ok(demo.includes('companies:[]'));
+assert.ok(demo.includes('contacts:[]'));
+const api=fs.readFileSync(path.join(root,'backend/src/server.js'),'utf8');
+for(const endpoint of ['/api/v1/platform/settings','/api/v1/company/profile','/api/v1/contacts/:id','/api/v1/platform/companies/:id/invite-owner'])assert.ok(api.includes(endpoint),endpoint+' missing');
+assert.ok(!fs.existsSync(path.join(root,'backend/.env')),'Do not ship backend secrets');
+assert.ok(!fs.existsSync(path.join(root,'frontend/.env')),'Do not ship frontend env credentials');
+console.log('PASS: files, Somali instructions, contact forms, company onboarding, API routes, no shipped credentials');
